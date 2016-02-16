@@ -10,7 +10,7 @@
 # the Free Software Foundation; either version 2 of the License, or
 # (at your option) any later version.
 
-__version__ = 'v0.0.2'
+__version__ = 'v0.0.3'
 
 import os.path
 import platform
@@ -695,6 +695,40 @@ def pwm_period(pwm_id,ns):
 		f.write(str(ns))
 		f.close()
 		f.close()
+
+#Pin to PWM id
+pin2pwm = {
+#Arietta G25
+	'J4.34'   :  0,
+	'J4.36'   :  1,
+	'J4.38'   :  2,
+	'J4.40'   :  3,
+}	
+
+class PWM():
+	pwm=None
+	period=None
+	dutycycle=None
+
+	def __init__(self,pin,frequency):
+		self.pwm=pin2pwm[pin]
+		pwm_export(self.pwm)
+		self.period=int(float(1)/frequency*1e9)
+		pwm_period(self.pwm,self.period)
+	
+	def start(self,dutycycle):
+		self.dutycycle=self.period/100*dutycycle
+		pwm_duty_cycle(self.pwm,self.dutycycle)
+		pwm_enable(self.pwm)
+		
+	def	ChangeDutyCycle(self,dutycycle):
+		self.dutycycle=self.period/100*dutycycle
+		pwm_duty_cycle(self.pwm,self.dutycycle)
+		
+	def stop(self):
+		pwm_disable(self.pwm)
+		
+	
 
 def pinname2kernelid(pinname):
 	"""
