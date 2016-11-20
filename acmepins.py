@@ -822,6 +822,9 @@ class ARIETTA_LED():
 	ledpath="/sys/class/leds/arietta_led"
 
 	def __init__(self,mode="none"):
+		self.mode(mode)
+
+	def mode(self,mode="heartbeat"):
 		if os.path.exists(self.ledpath + "/trigger"): 
 			fd = open(self.ledpath + "/trigger",'w')
 			fd.write(mode)
