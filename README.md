@@ -55,8 +55,8 @@ Button=GPIO('J7.5','INPUT')
 #Aria G25 example
 #Button=GPIO('W15','INPUT')
 
-#Arietta G25 example
-#Button=GPIO('J4.28','INPUT')
+#Arietta G25 example (on board push button)
+#Button=GPIO('PC17','INPUT')
 
 #Acqua A5 example
 #Button=GPIO('J3.33','INPUT')
@@ -86,8 +86,8 @@ Button=GPIO('J7.5','INPUT')
 #Aria G25 example
 #Button=GPIO('W15','INPUT')
 
-#Arietta G25 example
-#Button=GPIO('J4.28','INPUT')
+#Arietta G25 example (on board push button)
+#Button=GPIO('PC17','INPUT')
 
 #Acqua A5 example
 #Button=GPIO('J3.33','INPUT')
