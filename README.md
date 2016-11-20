@@ -101,7 +101,31 @@ while True:
     sleep(0.5)
 ```
 
+###Blinking the on-board red led
+```
+from acmepins import ARIETTA_LED
+from time import sleep
 
+arietta_led=ARIETTA_LED("none")
+
+for i in range(5):
+	arietta_led.on()
+	sleep(0.1)
+	arietta_led.off()
+	sleep(0.1)
+	arietta_led.on()
+	sleep(0.1)
+	arietta_led.off()
+	sleep(0.1)
+
+	arietta_led.on()
+	sleep(2)
+	arietta_led.off()
+	sleep(0.5)
+    
+arietta_led.mode("heartbeat")
+    
+```
 
 ##Links
 
