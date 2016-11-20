@@ -10,7 +10,7 @@
 # the Free Software Foundation; either version 2 of the License, or
 # (at your option) any later version.
 
-__version__ = 'v0.0.3'
+__version__ = 'v0.0.4'
 
 import os.path
 import platform
@@ -817,4 +817,25 @@ class GPIO():
 			thread.exit()
 
 		return
+
+class ARIETTA_LED():
+	ledpath="/sys/class/leds/arietta_led"
+
+	def __init__(self,mode="none"):
+		if os.path.exists(self.ledpath + "/trigger"): 
+			fd = open(self.ledpath + "/trigger",'w')
+			fd.write(mode)
+			fd.close()
+
+	def on(self):
+		if os.path.exists(self.ledpath + "/brightness"): 
+			fd = open(self.ledpath + "/brightness",'w')
+			fd.write("1")
+			fd.close()
+
+	def off(self):
+		if os.path.exists(self.ledpath + "/brightness"): 
+			fd = open(self.ledpath + "/brightness",'w')
+			fd.write("0")
+			fd.close()
 
