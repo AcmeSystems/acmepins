@@ -18,5 +18,92 @@ the following Acme Systems Linux boards:
 
 ##Code examples
 
+###Blinking led
+
+```
+from acmepins import GPIO
+from time import sleep
+
+#FOX Board G20 example
+led = GPIO('J7.3','OUTPUT') 
+
+#Aria G25 example
+#led = GPIO('W9','OUTPUT') 
+
+#Arietta G25 example
+#led = GPIO('J4.29','OUTPUT') 
+
+#Acqua A5 example
+#led = GPIO('J3.32','OUTPUT') 
+
+while True:
+    led.on()
+    sleep(1)
+    led.off()
+    sleep(1)
+```
+
+###Button read in polling mode
+
+```
+from acmepins import GPIO
+from time import sleep
+
+#FOX Board G20 example
+Button=GPIO('J7.5','INPUT')
+
+#Aria G25 example
+#Button=GPIO('W15','INPUT')
+
+#Arietta G25 example
+#Button=GPIO('J4.28','INPUT')
+
+#Acqua A5 example
+#Button=GPIO('J3.33','INPUT')
+
+i=0
+while True:
+    sleep(1)
+    i+=1
+    print i
+    if Button.digitalRead()==0:
+        print "Pressed"
+        while Button.digitalRead()==0:
+            pass   
+```
+
+###Button read in event mode
+```
+from acmepins import GPIO
+from time import sleep
+
+def event_handler():
+    print "Input changed"
+
+#FOX Board G20 example
+Button=GPIO('J7.5','INPUT')
+
+#Aria G25 example
+#Button=GPIO('W15','INPUT')
+
+#Arietta G25 example
+#Button=GPIO('J4.28','INPUT')
+
+#Acqua A5 example
+#Button=GPIO('J3.33','INPUT')
+
+Button.set_edge("both",event_handler)
+
+i=0
+while True:
+    print i
+    i=i+1
+    sleep(0.5)
+```
+
+
+
+##Links
+
 * http://www.acmesystems.it/gpio
 
