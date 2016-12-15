@@ -10,7 +10,7 @@
 # the Free Software Foundation; either version 2 of the License, or
 # (at your option) any later version.
 
-__version__ = 'v0.0.4'
+__version__ = 'v0.0.5'
 
 import os.path
 import platform
@@ -713,7 +713,7 @@ class PWM():
 	def __init__(self,pin,frequency):
 		self.pwm=pin2pwm[pin]
 		pwm_export(self.pwm)
-		self.period=int(float(1)/frequency*1e9)
+		self.period=int(float(1)/frequency*1e12)
 		pwm_period(self.pwm,self.period)
 	
 	def start(self,dutycycle):
