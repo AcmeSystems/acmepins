@@ -3,14 +3,14 @@
 # raspberry-gpio-python like GPIO functions for Acme boards
 # http://sourceforge.net/projects/raspberry-gpio-python/
 #
-# (C) 2016 Sergio Tanzilli <tanzilli@acmesystems.it>
+# (C) 2017 Sergio Tanzilli <tanzilli@acmesystems.it>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or
 # (at your option) any later version.
 
-__version__ = 'v0.0.4'
+__version__ = 'v0.0.5'
 
 import os.path
 import platform
@@ -23,10 +23,20 @@ import select
 import math
 import time
 
+legacy_id=2
 if platform.platform().find("Linux-2")!=-1:
-	legacy_id=True
-else: 	
-	legacy_id=False
+	legacy_id=1
+if platform.platform().find("Linux-4.4")!=-1:
+	legacy_id=2
+if platform.platform().find("Linux-4.10")!=-1:
+	legacy_id=3
+
+pinmode = {
+	"OUTPUT" : "out",
+	"LOW" : "out",
+	"HIGH" : "out",
+	"INPUT" : "in"
+}
 
 #Pin to Kernel ID table
 pin2kid = {
@@ -319,13 +329,6 @@ pin2kid = {
 	'J3.50'  :  85+32 #PC21
 }
 
-pinmode = {
-	"OUTPUT" : "low",
-	"LOW" : "low",
-	"HIGH" : "high",
-	"INPUT" : "in"
-}
-
 mcuName2pinname = {
 #Arietta G25
     'Arietta_G25' : {
@@ -582,10 +585,10 @@ def get_gpio_path(kernel_id):
 	global legacy_id
 	kernel_id=kernel_id-32	
 	
-	if (legacy_id==True):
+	if (legacy_id==1):
 		iopath="/sys/class/gpio/gpio%d" % (kernel_id+32)
 		
-	if (legacy_id==False):
+	if (legacy_id==2):
 		iopath="/sys/class/gpio/pio" 
 		if kernel_id>=0 and kernel_id<=31:
 			iopath="%sA%d" % (iopath,kernel_id-0)
@@ -597,6 +600,21 @@ def get_gpio_path(kernel_id):
 			iopath="%sD%d" % (iopath,kernel_id-96)
 		if kernel_id>=128 and kernel_id<=159:
 			iopath="%sE%d" % (iopath,kernel_id-128)
+
+	if (legacy_id==3):
+		iopath="/sys/class/gpio/P" 
+		if kernel_id>=0 and kernel_id<=31:
+			iopath="%sA%d" % (iopath,kernel_id-0)
+		if kernel_id>=32 and kernel_id<=63:
+			iopath="%sB%d" % (iopath,kernel_id-32)
+		if kernel_id>=64 and kernel_id<=95:
+			iopath="%sC%d" % (iopath,kernel_id-64)
+		if kernel_id>=96 and kernel_id<=127:
+			iopath="%sD%d" % (iopath,kernel_id-96)
+		if kernel_id>=128 and kernel_id<=159:
+			iopath="%sE%d" % (iopath,kernel_id-128)
+
+
 	return iopath		
 
 
@@ -610,7 +628,7 @@ def export(kernel_id):
 	iopath=get_gpio_path(kernel_id)
 	if not os.path.exists(iopath): 
 		f = open('/sys/class/gpio/export','w')
-		if (legacy_id==True):
+		if (legacy_id==1):
 			f.write(str(kernel_id))
 		else:
 			f.write(str(kernel_id-32))
@@ -622,7 +640,7 @@ def unexport(kernel_id):
 	iopath=get_gpio_path(kernel_id)
 	if os.path.exists(iopath): 
 		f = open('/sys/class/gpio/unexport','w')
-		if (legacy_id==True):
+		if (legacy_id==1):
 			f.write(str(kernel_id))
 		else:
 			f.write(str(kernel_id-32))
@@ -728,8 +746,6 @@ class PWM():
 	def stop(self):
 		pwm_disable(self.pwm)
 		
-	
-
 def pinname2kernelid(pinname):
 	"""
 	Return the Kernel ID of any Pin using the MCU name
@@ -760,6 +776,7 @@ class GPIO():
 
 	def __init__(self,pin,mode):
 		self.kernel_id=pinname2kernelid(pin)
+		unexport(self.kernel_id)
 		export(self.kernel_id)
 		direction(self.kernel_id,pinmode[mode])
 
