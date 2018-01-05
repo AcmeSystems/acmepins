@@ -3,14 +3,14 @@
 # raspberry-gpio-python like GPIO functions for Acme boards
 # http://sourceforge.net/projects/raspberry-gpio-python/
 #
-# (C) 2017 Sergio Tanzilli <tanzilli@acmesystems.it>
+# (C) 2018 Sergio Tanzilli <tanzilli@acmesystems.it>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or
 # (at your option) any later version.
 
-__version__ = 'v0.0.5'
+__version__ = 'v0.0.6'
 
 import os.path
 import platform
@@ -23,13 +23,11 @@ import select
 import math
 import time
 
-legacy_id=2
+legacy_id=3
 if platform.platform().find("Linux-2")!=-1:
 	legacy_id=1
 if platform.platform().find("Linux-4.4")!=-1:
 	legacy_id=2
-if platform.platform().find("Linux-4.10")!=-1:
-	legacy_id=3
 
 pinmode = {
 	"OUTPUT" : "out",

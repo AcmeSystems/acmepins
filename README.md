@@ -3,6 +3,7 @@
 A Python library for controlling the GPIO pins on
 the following Acme Systems Linux boards:
 
+* [Roadrunner](http://www.acmesystems.it/roadrunner)
 * [Acqua A5](http://www.acmesystems.it/acqua)
 * [Aria G25](http://www.acmesystems.it/aria)
 * [Arietta G25](http://www.acmesystems.it/arietta)
@@ -16,7 +17,15 @@ the following Acme Systems Linux boards:
 ~/acmepins# python setup.py install
 ```
 
-##Code examples
+## Pin test
+
+```
+$ python blink.py PA0
+
+```
+		
+
+##Python Code examples
 
 ###Blinking led
 
@@ -24,8 +33,11 @@ the following Acme Systems Linux boards:
 from acmepins import GPIO
 from time import sleep
 
+#Roadrunner example
+led = GPIO('PA0','OUTPUT') 
+
 #FOX Board G20 example
-led = GPIO('J7.3','OUTPUT') 
+#led = GPIO('J7.3','OUTPUT') 
 
 #Aria G25 example
 #led = GPIO('W9','OUTPUT') 
