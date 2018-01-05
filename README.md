@@ -1,4 +1,4 @@
-#Acmepins
+# Acmepins
 
 A Python library for controlling the GPIO pins on
 the following Acme Systems Linux boards:
@@ -9,7 +9,7 @@ the following Acme Systems Linux boards:
 * [Arietta G25](http://www.acmesystems.it/arietta)
 * [FOX Board G20](http://www.acmesystems.it/FOXG20) 
 
-##Installation
+## Installation
 
 ```
 # git clone git://github.com/AcmeSystems/acmepins.git
@@ -25,9 +25,9 @@ $ python blink.py PA0
 ```
 		
 
-##Python Code examples
+## Python Code examples
 
-###Blinking led
+### Blinking led
 
 ```
 from acmepins import GPIO
@@ -55,7 +55,7 @@ while True:
     sleep(1)
 ```
 
-###Button read in polling mode
+### Button read in polling mode
 
 ```
 from acmepins import GPIO
@@ -84,7 +84,7 @@ while True:
             pass   
 ```
 
-###Button read in event mode
+### Button read in event mode
 ```
 from acmepins import GPIO
 from time import sleep
@@ -113,7 +113,7 @@ while True:
     sleep(0.5)
 ```
 
-###Blinking the on-board red led
+### Blinking the on-board red led
 ```
 from acmepins import ARIETTA_LED
 from time import sleep
@@ -139,7 +139,7 @@ arietta_led.mode("heartbeat")
     
 ```
 
-##Links
+## Links
 
 * http://www.acmesystems.it/gpio
 
